@@ -1,29 +1,29 @@
-#define pushS(x) sa[--bkt[s[x]]] = x  
-#define pushL(x) sa[bkt[s[x]]++] = x
-#define induce_sort(v){\
-	fill_n(sa,n,0);\
-	copy_n(_bkt,A,bkt);\
-	for(i=n1-1;~i;--i)pushS(v[i]);\
-	copy_n(_bkt,A-1,bkt+1);\
-	for(i=0;i<n;++i)if(sa[i]&&!t[sa[i]-1])pushL(sa[i]-1);\
-	copy_n(_bkt,A,bkt);\
-	for(i=n-1;~i;--i)if(sa[i]&&t[sa[i]-1])pushS(sa[i]-1);\
-}
-template<typename T>
-void sais(const T s,int n,int *sa,int *_bkt,int *p,bool *t,int A){
-	int *rnk=p+n,*s1=p+n/2,*bkt=_bkt+A;
-	int n1=0,i,j,x=t[n-1]=1,y=rnk[0]=-1,cnt=-1;
-	for(i=n-2;~i;--i)t[i]=(s[i]==s[i+1]?t[i+1]:s[i]<s[i+1]);
-	for(i=1;i<n;++i)rnk[i]=t[i]&&!t[i-1]?(p[n1]=i,n1++):-1;
-	fill_n(_bkt,A,0);
-	for(i=0;i<n;++i)++_bkt[s[i]];
-	for(i=1;i<A;++i)_bkt[i]+=_bkt[i-1];
-	induce_sort(p);
-	for(i=0;i<n;++i)if(~(x=rnk[sa[i]]))
-		j=y<0||memcmp(s+p[x],s+p[y],(p[x+1]-p[x])*sizeof(s[0]))
-		,s1[y=x]=cnt+=j;
-	if(cnt+1<n1)sais(s1,n1,sa,bkt,rnk,t+n,cnt+1);
-	else for(i=0;i<n1;++i)sa[s1[i]]=i;
-	for(i=0;i<n1;++i)s1[i]=p[sa[i]];
-	induce_sort(s1);
+#define pushS(x) sa[cur[s[x]]--] = x
+#define pushL(x) sa[cur[s[x]]++] = x
+#define inducedSort(v) fill_n(sa, n, -1); fill_n(cnt, m, 0);                     \
+    for (int i = 0; i < n; ++i) cnt[s[i]]++;                                     \
+    for (int i = 1; i < m; ++i) cnt[i] += cnt[i - 1];                            \
+    for (int i = 0; i < m; ++i) cur[i] = cnt[i] - 1;                             \
+    for (int i = n1 - 1; i >= 0; --i) pushS(v[i]);                               \
+    for (int i = 1; i < m; ++i) cur[i] = cnt[i - 1];                             \
+    for (int i = 0; i < n; ++i) if (sa[i] > 0 && t[sa[i] - 1]) pushL(sa[i] - 1); \
+    for (int i = 0; i < m; ++i) cur[i] = cnt[i] - 1;                             \
+    for (int i = n - 1; i >= 0; --i) if (sa[i] > 0 && !t[sa[i] - 1]) pushS(sa[i] - 1)
+
+void sais(int n, int m, int *s, bool *t, int *p) {
+    int n1 = 0, ch = rk[0] = -1, *s1 = s+n;
+	t[n - 1] = false;
+    for (int i = n - 2; i >= 0; --i) t[i] = s[i] == s[i + 1] ? t[i + 1] : (s[i] > s[i + 1]);
+    for (int i = 1; i < n; ++i) rk[i] = (t[i - 1] && !t[i]) ? (p[n1] = i, n1++) : -1;
+    inducedSort(p);
+    for (int i = 0, x, y; i < n; ++i) if ((x = rk[sa[i]]) != -1) {
+        if (ch < 1 || p[x+1] - p[x] != p[y+1] - p[y]) ch++;
+        else for (int j = p[x], k = p[y]; j <= p[x+1]; j++, k++)
+            if ((s[j]<<1|t[j]) != (s[k]<<1|t[k])) {ch++; break;}
+        s1[y = x] = ch;
+    }
+    if (ch+1 < n1) sais(n1, ch+1, s1, t+n, p+n1);
+    else for (int i = 0; i < n1; ++i) sa[s1[i]] = i;
+    for (int i = 0; i < n1; ++i) s1[i] = p[sa[i]];
+    inducedSort(s1);
 }
