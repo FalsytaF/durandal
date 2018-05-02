@@ -8,9 +8,9 @@ public:
 
 	char charAt(int pos);
 	std::string substring(int beginPos, int endPos);
-	std::vector<int> search(std::string pattern);
-	std::vector<int> search(std::string, int startPos, int endPos);
+	std::vector<int> search(const std::string &pattern);
+	std::vector<int> search(const std::string &pattern, int startPos, int endPos);
 	void insert(int pos, char c);
-	void insert(int pos, std::string str);
+	void insert(int pos, const std::string &str);
 	void erase(int beginPos, int endPos);
 };
