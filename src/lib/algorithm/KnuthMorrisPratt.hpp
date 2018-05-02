@@ -1,4 +1,4 @@
-StaticArray<int> initKMP(string &pattern) {
+StaticArray<int> initKMP(const std::string &pattern) {
 	int len = pattern.length();
 	StaticArray<int> next(len, false);
 	int j = -1;
