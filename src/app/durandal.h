@@ -2,6 +2,7 @@
 #define DURANDAL_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
 class Durandal;
@@ -14,6 +15,9 @@ class Durandal : public QMainWindow
 public:
     explicit Durandal(QWidget *parent = 0);
     ~Durandal();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void on_actionNew_triggered();

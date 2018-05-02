@@ -44,27 +44,27 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="text">
-    <string>New</string>
+    <string>&amp;New</string>
    </property>
   </action>
   <action name="actionOpen">
    <property name="text">
-    <string>Open...</string>
+    <string>&amp;Open...</string>
    </property>
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
    </property>
   </action>
   <action name="actionSaveAs">
    <property name="text">
-    <string>Save As...</string>
+    <string>Sa&amp;ve As...</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>
